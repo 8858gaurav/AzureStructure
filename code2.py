@@ -6,6 +6,8 @@ dbutils.fs.ls('/')
 #  FileInfo(path='dbfs:/volume/', name='volume/', size=0, modificationTime=0),
 #  FileInfo(path='dbfs:/volumes/', name='volumes/', size=0, modificationTime=0)]
 
+# We uploaded 1 files in our azure container. from the container, we are reading this files.
+# the folder will be created automatically in databricks UI after mounting the azure path.
 
 dbutils.fs.mount(
     source = "wasbs://misgauravinputdatatsets@misgauravstorageaccount1.blob.core.windows.net/",
