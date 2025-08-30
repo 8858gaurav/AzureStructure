@@ -47,14 +47,28 @@ df.write.mode('overwrite').partitionBy('order_status').save('/mnt/misgauravdb/de
 create database if not exists misgauravdb_hive
 
 %sql
-create table misgauravdb_hive.ordersparquet using parquet location "/mnt/misgauravdb/parquet/orders_partitioned/"
-
+create table if not exists misgauravdb_hive.ordersparquet using parquet location "dbfs:/mnt/misgauravdb/parquet/orders_partitioned"
+    
 %sql
-create table if not exists misgauravdb_hive.ordersdelta using delta location '/mnt/misgauravdb/delta/orders_partitioned/'
+create table if not exists misgauravdb_hive.ordersdelta using delta location 'dbfs:/mnt/misgauravdb/delta/orders_partitioned/'
 
 %sql
 select * from misgauravdb_hive.ordersdelta limit 5;
 
+-- order_id	order_date	order_customer_id	order_status
+-- 102	2013-07-25 00:00:00.0	8027	COMPLETE
+-- 98	2013-07-25 00:00:00.0	5243	COMPLETE
+-- 95	2013-07-25 00:00:00.0	9032	COMPLETE
+-- 92	2013-07-25 00:00:00.0	6932	COMPLETE
+-- 91	2013-07-25 00:00:00.0	8912	COMPLETE
+
 %sql
-select * from misgauravdb_hive.ordersparquet where order_status = 'DELIVERED' limit 5;
+select * from delta.`/mnt/misgauravdb/parquet/orders_partitioned` limit 5;
+
+-- order_id	order_date	order_customer_id	order_status
+-- 97	2013-07-25 00:00:00.0	10784	PENDING
+-- 96	2013-07-25 00:00:00.0	8683	PENDING
+-- 85	2013-07-25 00:00:00.0	1485	PENDING
+-- 68	2013-07-25 00:00:00.0	4320	PENDING
+-- 55	2013-07-25 00:00:00.0	2052	PENDING
 
