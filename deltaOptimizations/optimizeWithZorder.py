@@ -3,7 +3,7 @@
 trip_df = spark.read.format("csv").option('header', 'true').option('inferSchema', 'true').load('dbfs:/databricks-datasets/nyctaxi/tripdata/yellow/yellow_tripdata_2009-01.csv.gz')
 
 trip_df.repartition(200).write.mode('append').format('delta').saveAsTable('taxidb.trips_delta_new');
-# this will create a 400 files, if we run the above commands twice.
+# this will create a 400 files + one _delta_logs folder (inside this, we'll get a 2 transactional log files), if we run the above commands twice.
 
 # this will store a file under hive warehouse. user/hive/warehouse/taxidb.db/trips_delta_new/ 400 files + _delta_logs folder.
 # it's a managed hive table
