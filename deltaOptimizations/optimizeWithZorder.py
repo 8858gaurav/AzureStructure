@@ -55,14 +55,14 @@ describe history taxidb.trips_delta_new;
 # -- engineInfo	           Databricks-Runtime/16.4.x-photon-scala2.12	      Databricks-Runtime/16.4.x-photon-scala2.12
 
 %sql
-select * from taxidb.trips_delta_new where passenger_count = 16;
-# spark jobs view -> associated sql query -> explain -> # of files read = 400; # size of files read = 1423.6 MB;
+select * from taxidb.trips_delta_new where passenger_count = 4;
+# spark jobs view -> associated sql query -> explain -> # of files read = 400; # size of files read = 1320.1 MiB;
 
 %sql
 optimize taxidb.trips_delta_new zorderby (passenger_count);
 
 %sql
-select * from taxidb.trips_delta_new where passenger_count = 16;
-# spark jobs view -> associated sql query -> explain -> # of files read = 1; # of files pruned = 4; # size of files read = 195.4 MB
+select * from taxidb.trips_delta_new where passenger_count = 4;
+# spark jobs view -> associated sql query -> explain -> # of files read = 1; # of files pruned = 4; # size of files read = 179.9 MiB; size of files pruned = 813.6 MiB
 
 
