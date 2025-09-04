@@ -93,6 +93,8 @@ delete from orders where order_id = 3;
 # -- 1
 
 dbutils.fs.ls('/user/hive/warehouse/orders/')
+# No _change_data folder will be created here for delete operations.
+
 # [FileInfo(path='dbfs:/user/hive/warehouse/orders/_delta_log/', name='_delta_log/', size=0, modificationTime=1756985922000),
 #  FileInfo(path='dbfs:/user/hive/warehouse/orders/deletion_vector_d76a8ed3-c096-4382-b54b-735aa0944118.bin', name='deletion_vector_d76a8ed3-c096-4382-b54b-735aa0944118.bin', size=43, modificationTime=1756987196000),
 #  FileInfo(path='dbfs:/user/hive/warehouse/orders/part-00000-36418ed8-b229-49c6-8633-9d21a4962339-c000.snappy.parquet', name='part-00000-36418ed8-b229-49c6-8633-9d21a4962339-c000.snappy.parquet', size=1668, modificationTime=1756986718000)]
