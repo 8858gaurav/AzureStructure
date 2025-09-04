@@ -246,8 +246,12 @@ vacuum misgauravdb.delta_orders_partitioned retain 1 hours;
 # -- dbfs:/mnt/reaildb/delta_tables
 
 %sql
-select * from misgauravdb.delta_orders_partitioned version as of 0 limit 5;
-# -- No results
+select * from misgauravdb.delta_orders_partitioned version as of 2 limit 5;
+
+# -- [FAILED_READ_FILE.DBR_FILE_NOT_EXIST] Error while reading file dbfs:/mnt/reaildb/delta_tables/part-00000-f94614b9-4733-4121-b33e-493f15bdacc9-c000.snappy.parquet. 
+# [DELTA_FILE_NOT_FOUND_DETAILED] File dbfs:/mnt/reaildb/delta_tables/part-00000-f94614b9-4733-4121-b33e-493f15bdacc9-c000.snappy.parquet referenced in the transaction log cannot 
+# be found. This occurs when data has been manually deleted from the file system rather than using the table `DELETE` statement. For more information, 
+# see https://docs.microsoft.com/azure/databricks/delta/delta-intro#frequently-asked-questions SQLSTATE: KD001
 
 %sql
 describe history misgauravdb.delta_orders_partitioned
