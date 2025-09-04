@@ -95,7 +95,7 @@ delete from orders where order_id = 3;
 dbutils.fs.ls('/user/hive/warehouse/orders/')
 # No _change_data folder will be created here for delete operations.
 
-# 1 deletion_vector file will be created for delete operation
+# 1 deletion_vector file will be created for delete operation - deletion_vector_d76a8ed3-c096-4382-b54b-735aa0944118.bin
 
 # [FileInfo(path='dbfs:/user/hive/warehouse/orders/_delta_log/', name='_delta_log/', size=0, modificationTime=1756985922000),
 #  FileInfo(path='dbfs:/user/hive/warehouse/orders/deletion_vector_d76a8ed3-c096-4382-b54b-735aa0944118.bin', name='deletion_vector_d76a8ed3-c096-4382-b54b-735aa0944118.bin', size=43, modificationTime=1756987196000),
@@ -120,7 +120,7 @@ update orders set order_status = 'value' where order_id = 4;
 
 dbutils.fs.ls('/user/hive/warehouse/orders/')
 
-# 1 more deletion_vector file will be created for update operation as well
+# 1 more deletion_vector file will be created for update operation as well - deletion_vector_965059fb-8b3b-49e2-bcb5-e7348e68f56d.bin
 
 # [FileInfo(path='dbfs:/user/hive/warehouse/orders/_change_data/', name='_change_data/', size=0, modificationTime=1756987473000),
 #  FileInfo(path='dbfs:/user/hive/warehouse/orders/_delta_log/', name='_delta_log/', size=0, modificationTime=1756985922000),
