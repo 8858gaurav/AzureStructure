@@ -61,9 +61,9 @@ copy into retaildb.orders_bronze from (
 fileformat = CSV
 format_options('header'='true')
 
--- num_affected_rows  num_inserted_rows num_skipped_corrupt_files
--- 104                  104                     0
--- if we run the same copy into commands for the same exisitn file under raw folder, it will not copy the same existing records to our tables.
+# -- num_affected_rows  num_inserted_rows num_skipped_corrupt_files
+# -- 104                  104                     0
+# -- if we run the same copy into commands for the same exisitn file under raw folder, it will not copy the same existing records to our tables.
 
 %sql
 select * from retaildb.orders_bronze limit 5;
