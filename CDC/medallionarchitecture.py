@@ -126,3 +126,103 @@ select * from orders_bronze_changes limit 5;
 %sql
 select count(*) from orders_bronze_changes; -- 45
 select count(*) from retaildb.orders_bronze; -- 104 
+
+# merging to the silver table
+
+%sql
+merge into retaildb.orders_silver tgt
+using orders_bronze_changes src on tgt.order_id = src.order_id
+when matched
+then
+update set tgt.order_status = src.order_status, tgt.customer_id = src.customer_id, tgt.modifiedon = CURRENT_TIMESTAMP()
+WHEN not matched
+then
+insert(order_id, order_date, customer_id, order_status, createdon, modifiedon) values(order_id, order_date, customer_id, order_status, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+
+# -- num_affected_rows	num_updated_rows	num_deleted_rows	num_inserted_rows
+# -- 45	              0	                0	                45
+
+
+# -- select count(*) from orders_bronze_changes; -- 45
+# -- select count(*) from retaildb.orders_silver; -- 104
+
+#  adding complete data from fresh to gold table
+
+%sql
+insert overwrite table retaildb.orders_gold
+select customer_id, order_status, order_year, count(order_id) as num_orders
+from retaildb.orders_silver group by 1, 2, 3;
+
+# -- num_affected_rows	num_inserted_rows
+# -- 45	                45
+
+%sql
+select count(*) from retaildb.orders_gold; -- 45
+
+# now uplaod 1 more new file under this folder: dbfs:/FileStore/raw, i.e orders_paste.csv, this file has total of 104 records 
+# ( 2 new records + 2 for updates, rest records are same with the previous existing files.)
+
+# in this file (orders_paste.csv), we have CLOSED, and PENDING for 3, and 4 order_id
+# 3,2013-07-25 00:00:00.0,12111,CLOSED
+# 4,2013-07-25 00:00:00.0,8827,PENDING
+
+# 2 additional records, it has: 
+# 11101,2013-07-25 00:00:00.0,12256,PROCESSING
+# 11102,2013-07-25 00:00:00.0,7790,PENDING_PAYMENT
+
+# in this file (orders.csv), we have COMPLETE, and CLOSED for 3, and 4 order_id
+# 3,2013-07-25 00:00:00.0,12111,COMPLETE
+# 4,2013-07-25 00:00:00.0,8827,CLOSED
+
+# now re-run the scripts after uplaoding the above files to the raw folder: from copy into retaildb.orders_bronze
+dbutils.fs.ls('/FileStore/raw')
+
+# FileInfo(path='dbfs:/FileStore/raw/orders.csv', name='orders.csv', size=4333, modificationTime=1757161965000),
+#  FileInfo(path='dbfs:/FileStore/raw/orders_paste.csv', name='orders_paste.csv', size=4336, modificationTime=1757163384000)]
+
+%sql
+copy into retaildb.orders_bronze from (
+  select order_id::int,
+  order_date::string,
+  customer_id::int,
+  order_status::string,
+  INPUT_FILE_NAME() as filename,
+  current_timestamp() as createdon
+  from 'dbfs:/FileStore/raw'
+)
+fileformat = CSV
+format_options('header'='true')
+
+# -- num_affected_rows	num_inserted_rows	num_skipped_corrupt_files
+# -- 0	                0	                0
+
+# run the view commands of orders_bronze_changes
+
+%sql
+create or replace temporary view orders_bronze_changes
+AS 
+select * from table_changes('retaildb.orders_bronze', 1) where order_id > 0
+AND customer_id > 0 and order_status IN ("CLOSED", "PENDING_PAYMENT");
+
+%sql
+select * from orders_bronze_changes limit 5;
+
+# run the merges commands, any incremental changes in the bronze table has been taken gracefully because of CDC / CDF
+
+%sql
+merge into retaildb.orders_silver tgt
+using orders_bronze_changes src on tgt.order_id = src.order_id
+when matched
+then
+update set tgt.order_status = src.order_status, tgt.customer_id = src.customer_id, tgt.modifiedon = CURRENT_TIMESTAMP()
+WHEN not matched
+then
+insert(order_id, order_date, customer_id, order_status, createdon, modifiedon) values(order_id, order_date, customer_id, order_status, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+
+# now run the insert command for gold tables
+
+%sql
+insert overwrite table retaildb.orders_gold
+select customer_id, order_status, order_year, count(order_id) as num_orders
+from retaildb.orders_silver group by 1, 2, 3;
+
