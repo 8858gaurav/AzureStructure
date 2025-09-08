@@ -179,7 +179,7 @@ then
 insert(order_id, order_date, customer_id, order_status, createdon, modifiedon) values(order_id, order_date, customer_id, order_status, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
 # -- num_affected_rows	num_updated_rows	num_deleted_rows	num_inserted_rows
-# -- 45	              0	                0	                45
+# -- 45	                0	                0	                45
 
 
 # -- select count(*) from orders_bronze_changes; -- 45
@@ -216,8 +216,27 @@ select count(*) from retaildb.orders_gold; -- 45
 # now re-run the scripts after uplaoding the above files to the raw folder: from copy into retaildb.orders_bronze
 dbutils.fs.ls('/FileStore/raw')
 
-# FileInfo(path='dbfs:/FileStore/raw/orders.csv', name='orders.csv', size=4333, modificationTime=1757161965000),
-#  FileInfo(path='dbfs:/FileStore/raw/orders_paste.csv', name='orders_paste.csv', size=4336, modificationTime=1757163384000)]
+# [FileInfo(path='dbfs:/FileStore/raw/orders.csv', name='orders.csv', size=4333, modificationTime=1757311141000),
+#  FileInfo(path='dbfs:/FileStore/raw/orders_paste.csv', name='orders_paste.csv', size=212, modificationTime=1757313194000)]
+
+%sql
+copy into retaildb.orders_bronze from (
+  select order_id::int,
+  order_date::string,
+  customer_id::int,
+  order_status::string,
+  INPUT_FILE_NAME() as filename,
+  current_timestamp() as createdon
+  from 'dbfs:/FileStore/raw'
+)
+fileformat = CSV
+format_options('header'='true')
+
+# -- num_affected_rows	num_inserted_rows	num_skipped_corrupt_files
+# -- 4	                4	                 0
+
+# if we run the same copy into commands for the same exisitng file under raw folder, it will not copy the same existing records to our tables.
+# re run code no 223
 
 %sql
 copy into retaildb.orders_bronze from (
@@ -258,10 +277,17 @@ WHEN not matched
 then
 insert(order_id, order_date, customer_id, order_status, createdon, modifiedon) values(order_id, order_date, customer_id, order_status, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 
+# -- num_affected_rows	num_updated_rows	num_deleted_rows	num_inserted_rows
+# -- 47	                45	                0	                2
+
 # now run the insert command for gold tables
 
 %sql
 insert overwrite table retaildb.orders_gold
 select customer_id, order_status, order_year, count(order_id) as num_orders
 from retaildb.orders_silver group by 1, 2, 3;
+
+# -- num_affected_rows	num_inserted_rows
+# -- 46	                46
+
 
