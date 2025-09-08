@@ -49,6 +49,32 @@ location "dbfs:/FileStore/data/orders_gold.delta"
 TBLPROPERTIES(delta.enableChangeDataFeed = true)
 
 %sql
+describe history retaildb.orders_bronze;
+
+# -- version	0
+# -- timestamp	2025-09-08T05:59:18Z
+# -- userId	142168046953687
+# -- userName	gauravmishra8858@outlook.com
+# -- operation	CREATE TABLE
+# -- operationParameters	{"partitionBy":"[\"order_status\"]","clusterBy":"[]","description":null,"isManaged":"false","properties":"{\"delta.enableChangeDataFeed\":\"true\",\"delta.enableDeletionVectors\":\"true\"}","statsOnLoad":"false"}
+# -- job	null
+# -- notebook	{"notebookId":"717909296164361"}
+# -- clusterId	0908-055053-ck49gn66
+# -- readVersion	null
+# -- isolationLevel	WriteSerializable
+# -- isBlindAppend	TRUE
+# -- operationMetrics	{}
+# -- userMetadata	null
+# -- engineInfo	Databricks-Runtime/16.4.x-scala2.12
+	
+%fs
+ls dbfs:/FileStore/data/orders_bronze.delta
+
+# path	                                              name	        size	modificationTime
+# dbfs:/FileStore/data/orders_bronze.delta/_delta_log/	_delta_log/	  0	    1757311163000
+
+
+%sql
 copy into retaildb.orders_bronze from (
   select order_id::int,
   order_date::string,
@@ -64,6 +90,19 @@ format_options('header'='true')
 # -- num_affected_rows  num_inserted_rows num_skipped_corrupt_files
 # -- 104                  104                     0
 # -- if we run the same copy into commands for the same exisitn file under raw folder, it will not copy the same existing records to our tables.
+
+dbutils.fs.ls('dbfs:/FileStore/data/orders_bronze.delta')
+
+# [FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/_delta_log/', name='_delta_log/', size=0, modificationTime=1757311157000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=CANCELED/', name='order_status=CANCELED/', size=0, modificationTime=1757311458000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=CLOSED/', name='order_status=CLOSED/', size=0, modificationTime=1757311459000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=COMPLETE/', name='order_status=COMPLETE/', size=0, modificationTime=1757311460000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=ON_HOLD/', name='order_status=ON_HOLD/', size=0, modificationTime=1757311460000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=PAYMENT_REVIEW/', name='order_status=PAYMENT_REVIEW/', size=0, modificationTime=1757311460000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=PENDING/', name='order_status=PENDING/', size=0, modificationTime=1757311460000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=PENDING_PAYMENT/', name='order_status=PENDING_PAYMENT/', size=0, modificationTime=1757311460000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=PROCESSING/', name='order_status=PROCESSING/', size=0, modificationTime=1757311460000),
+#  FileInfo(path='dbfs:/FileStore/data/orders_bronze.delta/order_status=SUSPECTED_FRAUD/', name='order_status=SUSPECTED_FRAUD/', size=0, modificationTime=1757311461000)]
 
 %sql
 select * from retaildb.orders_bronze limit 5;
