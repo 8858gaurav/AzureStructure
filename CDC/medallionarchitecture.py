@@ -198,8 +198,8 @@ from retaildb.orders_silver group by 1, 2, 3;
 %sql
 select count(*) from retaildb.orders_gold; -- 45
 
-# now uplaod 1 more new file under this folder: dbfs:/FileStore/raw, i.e orders_paste.csv, this file has total of 104 records 
-# ( 2 new records + 2 for updates, rest records are same with the previous existing files.)
+# now uplaod 1 more new file under this folder: dbfs:/FileStore/raw, i.e orders_paste.csv, this file has total of 4 records 
+# ( 2 new records + 2 for updates )
 
 # in this file (orders_paste.csv), we have CLOSED, and PENDING for 3, and 4 order_id
 # 3,2013-07-25 00:00:00.0,12111,CLOSED
