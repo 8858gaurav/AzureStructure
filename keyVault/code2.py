@@ -45,6 +45,7 @@ df.write.mode('overwrite').partitionBy('order_status').save('/mnt/misgauravdb/de
 
 # https://misgauravstorageaccount1.blob.core.windows.net/misgauravinputdatatsets/delta/orders_partitioned/order_status=CANCELED/part-00000-0e117fff-8804-4a97-baa4-1c3284d1229d.c000.snappy.parquet
 
+# this will create a db under hive directory.
 %sql 
 create database if not exists misgauravdb_hive
 
