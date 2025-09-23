@@ -21,6 +21,7 @@ dbutils.fs.ls('/mnt/reaildb')
 dbutils.fs.ls('/user/hive/warehouse/misgauravdb.db')
 # []
 
+#since we are giving a path here by option methods, it becomes ext hive table, if we don't give path as a option then it will become managed hive table. 
 df.write.mode("overwrite").format("delta").option("path", "/mnt/reaildb/delta_tables").saveAsTable("misgauravdb.delta_orders_partitioned")
 
 dbutils.fs.ls('/user/hive/warehouse/misgauravdb.db')
