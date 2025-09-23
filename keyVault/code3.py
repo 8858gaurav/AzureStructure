@@ -12,6 +12,7 @@ create database if not exists misgauravdb;
 
 # this one has a _delta_log folder, because of this it will support acid properties.
 # for every operations, it will create a transaction log file after successfull job happened. 
+# this is your ext hive tables. 
 df.write.mode("overwrite").partitionBy("order_status").format("delta").option("path", "/mnt/databricksfolder/delta_new/orders_partitioned").saveAsTable("misgauravdb.delta_orders_partitioned")
 
 dbutils.fs.ls('mnt/databricksfolder/delta_new/orders_partitioned')
@@ -28,6 +29,7 @@ dbutils.fs.ls('mnt/databricksfolder/delta_new/orders_partitioned')
 #  FileInfo(path='dbfs:/mnt/databricksfolder/delta_new/orders_partitioned/order_status=SUSPECTED_FRAUD/', name='order_status=SUSPECTED_FRAUD/', size=0, modificationTime=0)]
 
 # this will not have a _delta_log folder
+# this is your ext hive tables 
 df.write.mode("overwrite").partitionBy("order_status").format("parquet").option("path", "/mnt/databricksfolder/parquet_new/orders_partitioned").saveAsTable("misgauravdb.parquet_orders_partitioned")
 
 dbutils.fs.ls('mnt/databricksfolder/parquet_new/orders_partitioned')
