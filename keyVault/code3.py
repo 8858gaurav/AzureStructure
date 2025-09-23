@@ -13,6 +13,8 @@ create database if not exists misgauravdb;
 # this one has a _delta_log folder, because of this it will support acid properties.
 # for every operations, it will create a transaction log file after successfull job happened. 
 # this is your ext hive tables. 
+# if you're working with external tables and want ACID properties, the underlying data must be in Delta format. 
+# external tables support ACID properties when using the Delta format, as Delta Lake provides transactional guarantees for data integrity and consistency.
 df.write.mode("overwrite").partitionBy("order_status").format("delta").option("path", "/mnt/databricksfolder/delta_new/orders_partitioned").saveAsTable("misgauravdb.delta_orders_partitioned")
 
 dbutils.fs.ls('mnt/databricksfolder/delta_new/orders_partitioned')
