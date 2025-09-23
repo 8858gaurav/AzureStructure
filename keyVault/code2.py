@@ -35,6 +35,8 @@ df.head(5)
 
 # In azure we just have a 1 conatiner name: misgauravinputdatatsets
 # whose storage account name is: misgauravstorageaccount1
+# if we call .saveAsTable method, without giving any path by using option methods,then it will create a managed hive table.
+# if we give path by using option methods, and then we are calling saveAsTable method, then it will create an external table 
 df.write.mode('overwrite').partitionBy('order_status').save('/mnt/misgauravdb/parquet/orders_partitioned')
 
 df.write.mode('overwrite').partitionBy('order_status').save('/mnt/misgauravdb/delta/orders_partitioned')
