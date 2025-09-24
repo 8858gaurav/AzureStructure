@@ -2,6 +2,7 @@
 # CDC/CDF will help you to merge the incremental changes from bronze to silver to gold. 
 # earlier this was difficult to merge the incremental changes in the case of Medallion architecture without the use of CDC/CDF
 
+# this will create a managed hive table
 %sql
 create table orders(
 order_id int,
