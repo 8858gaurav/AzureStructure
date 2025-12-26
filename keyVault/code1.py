@@ -13,7 +13,7 @@
 #  MountInfo(mountPoint='/databricks/mlflow-registry', source='databricks/mlflow-registry', encryptionType='sse-s3'),
 #  MountInfo(mountPoint='/', source='DatabricksRoot', encryptionType='sse-s3')]
 
-# IAM -> add role assignment
+# IAM(In misgauravkv page) -> add role assignment
 # give key vaults secret officer permission to yourself
 # give key vault secret user permission to azuredatabricks
 
@@ -82,4 +82,5 @@
 # spark.read.csv("/mnt/reaildb1/orders.csv", header = True).head(5)
 
 # spark.read.csv("/mnt/reaildb/orders.csv", header = True).head(5)
+
 
