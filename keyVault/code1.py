@@ -21,6 +21,7 @@
 # gaurav [ ~ ]$ databricks configure --token
 # how to get this -> setting -> developer -> access token
 # https://adb-1413606331357845.5.azuredatabricks.net/?o=1413606331357845#secrets/createScope, we can give this name (databricks-demo-scope) here also by using this link.
+# DNS Name e.g - https://misgauravkv.vault.azure.net/, resourceId check for Json file in KV page.
 # OR gaurav [ ~ ]$ databricks secrets create-scope --scope databricks-demo-scope
 # gaurav [ ~ ]$ databricks secrets list-scopes
 
@@ -82,5 +83,6 @@
 # spark.read.csv("/mnt/reaildb1/orders.csv", header = True).head(5)
 
 # spark.read.csv("/mnt/reaildb/orders.csv", header = True).head(5)
+
 
 
