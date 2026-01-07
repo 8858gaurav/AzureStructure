@@ -17,6 +17,15 @@
 # give key vaults secret officer permission to yourself
 # give key vault secret user permission to azuredatabricks
 
+# First set of permission to us, so that we can add new screts to our kv. (Key vault secret officer)
+# Second set of permission to data bricks so that it can access the kv. (Key vault secret user)
+# Now go to secrets (objects) under key vault (misgauravkv), click on Generate/Import
+
+# Create a secret key(misgaurav-secret-scope), by using KV page.
+# Copy the value of key, and paste it in your misgaurav-secret-scope : from the Access Key (container level page)
+
+# https://adb-7405613897415604.4.azuredatabricks.net/?o=7405613897415604#secrets/createScope
+
 # gaurav [ ~ ]$ pip install --user databricks-cli
 # gaurav [ ~ ]$ databricks configure --token
 # how to get this -> setting -> developer -> access token
@@ -83,6 +92,7 @@
 # spark.read.csv("/mnt/reaildb1/orders.csv", header = True).head(5)
 
 # spark.read.csv("/mnt/reaildb/orders.csv", header = True).head(5)
+
 
 
 
