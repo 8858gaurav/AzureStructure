@@ -49,11 +49,11 @@ df.write.mode('overwrite').partitionBy('order_status').save('/mnt/misgauravdb/de
 %sql 
 create database if not exists misgauravdb_hive
 
-# it's a managed hive table, we are not using external keywords here.
+# it's a extrnal table, we are using location keywords here.
 %sql
 create table if not exists misgauravdb_hive.ordersparquet using parquet location "dbfs:/mnt/misgauravdb/parquet/orders_partitioned"
 
-# it's a managed hive table, we are not using external keywords here.  
+# it's a external table, we are using location keywords here.  
 %sql
 create table if not exists misgauravdb_hive.ordersdelta using delta location 'dbfs:/mnt/misgauravdb/delta/orders_partitioned/'
 
