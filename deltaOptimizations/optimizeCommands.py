@@ -76,7 +76,7 @@ describe history taxidb.trips_delta;
 select * from taxidb.trips_delta where total_amt = 20;
 
 # -- took 8 seconds to execute it. means opening, and closing of any files will take a time. 
-# -- if we go inside this. spark job view -> associated sql query -> explain -> you will see # of files read = 5, that's the beauty of optimize commands. we are end up with opening of such a large number of files, earlier it has to opened 500 files. 
+# -- if we go inside this. spark job view -> associated sql query -> explain -> you will see # of files read = 5, that's the beauty of optimize commands. we are end up with opening of such a large number of files, earlier it has to opened 1500 files. 
 
 
 %sql 
