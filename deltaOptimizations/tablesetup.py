@@ -22,6 +22,9 @@ trip_df.repartition(20).write.format('parquet').saveAsTable('trip_db.trips_parqu
 # dbfs:/user/hive/warehouse/trip_db.db/trips_parquet/20 files 
 # its a managed hive table
 
+# it'll become ext hive table, if we give .option('path', '< >') for line no 20
+# history command will work with delta tables only
+
 # we can use describe detail/extended/formatted/history trip_db.trips_delta
 
 %sql
