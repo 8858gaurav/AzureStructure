@@ -1,4 +1,5 @@
 # 1. Read the raw data from your container
+# we hav not synced this conatiner databricks-tables with unity catalog Volume
 input_path = "abfss://databricks-tables@misgauravstorageaccount.dfs.core.windows.net/input_path/"
 df = spark.read.format("csv").option("header", "true").load(input_path)
 
@@ -7,6 +8,7 @@ df = spark.read.format("csv").option("header", "true").load(input_path)
 output_external_path = "abfss://databricks-tables@misgauravstorageaccount.dfs.core.windows.net/output_path/"
 
 # 3. Write the data as Delta format to the new container
+# we hav not synced this conatiner databricks-tables with unity catalog Volume, i.e we are able to create an external table in databricks
 df.write.format("delta").mode("overwrite").save(output_external_path)
 
 %sql
