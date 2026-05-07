@@ -5,7 +5,7 @@ df = spark.read.format("csv").option("header", "true").load(input_volume_path)
 
 # 2. Define the new destination (The New Container)
 # We will create a folder inside the new container for this specific table
-# we hav not synced this conatiner databricks-tables with unity catalog Volume
+# we hav not synced this conatiner databricks-tables with unity catalog Volume, i.e we are able to create an external table in databricks
 output_external_path = "abfss://databricks-tables@misgauravstorageaccount.dfs.core.windows.net/retail_orders/"
 
 # 3. Write the data as Delta format to the new container
