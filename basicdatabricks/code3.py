@@ -1,5 +1,6 @@
 # 1. Read the raw data from your container
 # we hav not synced this conatiner databricks-tables with unity catalog Volume
+# Volume in Unity catalog: Managed Volume, & External Volume, we can't create an ext table in databricks by using these two Volumes options. 
 input_path = "abfss://databricks-tables@misgauravstorageaccount.dfs.core.windows.net/input_path/"
 df = spark.read.format("csv").option("header", "true").load(input_path)
 
