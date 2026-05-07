@@ -4,6 +4,8 @@
 if data is present in unity catalog, then only managed table can be created only, if it's synced with cloud or not.
 Volume root was set to the Container level, not a specific folder.
 
+Volume in Unity catalog: Managed Volume, & External Volume, we can't create an ext table in databricks by using these two Volumes options. 
+
 # we have synced this conatiner: azureextvolumedatabricks (azure portal) with unity catalog Volume: /Volumes/misgauravcatalog/default/misgauravextvolume (catalog UI),
 # i.e we are not able to create an external table in databricks
 # we can see all the folder(input/output folder) inside this container on my catalog UI
