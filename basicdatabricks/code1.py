@@ -2,7 +2,8 @@
 "No, Unity Catalog enforces path exclusivity. A directory managed by a Volume cannot be used as the LOCATION for an External Table.
 
 if data is present in unity catalog, then only managed table can be created only, if it's synced with cloud or not.
-
+Volume root was set to the Container level, not a specific folder.
+  
 # read operations
 # gauravmishra@Gauravs-MacBook-Air ~ % databricks fs ls dbfs:/Volumes/misgauravcatalog/default/misgauravextvolume/input/orders_large.csv
 
