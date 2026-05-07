@@ -1,5 +1,6 @@
 # 1. Read the raw data from your existing Volume
 # We synced the container: azureextvolumedatabricks with volume: /Volumes/misgauravcatalog/default/misgauravextvolume
+# Volume in Unity catalog: Managed Volume, & External Volume, we can't create an ext table in databricks by using these two Volumes options. 
 input_volume_path = "dbfs:/Volumes/misgauravcatalog/default/misgauravextvolume/input/orders_large.csv"
 df = spark.read.format("csv").option("header", "true").load(input_volume_path)
 
