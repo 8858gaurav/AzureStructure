@@ -1,9 +1,11 @@
 # 1. Read the raw data from your existing Volume
+# We synced the container: azureextvolumedatabricks with volume: /Volumes/misgauravcatalog/default/misgauravextvolume
 input_volume_path = "dbfs:/Volumes/misgauravcatalog/default/misgauravextvolume/input/orders_large.csv"
 df = spark.read.format("csv").option("header", "true").load(input_volume_path)
 
 # 2. Define the new destination (The New Container)
 # We will create a folder inside the new container for this specific table
+# we hav not synced this conatiner databricks-tables with unity catalog Volume
 output_external_path = "abfss://databricks-tables@misgauravstorageaccount.dfs.core.windows.net/retail_orders/"
 
 # 3. Write the data as Delta format to the new container
