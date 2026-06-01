@@ -122,7 +122,7 @@ update orders set order_status = 'value' where order_id = 4;
 dbutils.fs.ls('/user/hive/warehouse/orders/')
 
 # 1 more deletion_vector file will be created for update operation as well - deletion_vector_965059fb-8b3b-49e2-bcb5-e7348e68f56d.bin
-
+# because of update - I am getting 2 parquet files here ?
 # [FileInfo(path='dbfs:/user/hive/warehouse/orders/_change_data/', name='_change_data/', size=0, modificationTime=1756987473000),
 #  FileInfo(path='dbfs:/user/hive/warehouse/orders/_delta_log/', name='_delta_log/', size=0, modificationTime=1756985922000),
 #  FileInfo(path='dbfs:/user/hive/warehouse/orders/deletion_vector_965059fb-8b3b-49e2-bcb5-e7348e68f56d.bin', name='deletion_vector_965059fb-8b3b-49e2-bcb5-e7348e68f56d.bin', size=87, modificationTime=1756987472000),
