@@ -1,0 +1,11 @@
+here, we are just reading the file from different gcs bucket, then copy the contents into a brone table, & so on.
+we are creating bronze, silver & gold table via delta format table techniques with TBLPROPERTIES(delta.enableChangeDataFeed = true),
+before reading the raw file. 
+
+also, TBLPROPERTIES(delta.enableChangeDataFeed = true); is applicable here 
+
+In Delta Lake / Medallion architecture workflows (such as PySpark pipelines on Databricks/GCP), 
+creating empty DataFrames for Silver and Gold layers without creating one for the Bronze layer is a standard design pattern.
+
+but for pure databricks env, we don't need to create empty dataframe, by default once we create a delta table under pure databricks env, 
+it will create _delta_log folder automatically.
