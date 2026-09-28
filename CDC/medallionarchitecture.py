@@ -73,7 +73,10 @@ ls dbfs:/FileStore/data/orders_bronze.delta
 # path	                                              name	        size	modificationTime
 # dbfs:/FileStore/data/orders_bronze.delta/_delta_log/	_delta_log/	  0	    1757311163000
 
+# this will not work, if we have inconsistent or varying columns from your file under raw folder 
+# e.g sometime our file may contain 3 or 5 columns, then it will not work 
 
+# in this case, use autoloader techniques which can handle schema evolution techniques 
 %sql
 copy into retaildb.orders_bronze from (
   select order_id::int,
